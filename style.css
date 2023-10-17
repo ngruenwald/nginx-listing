@@ -1,0 +1,105 @@
+:root {
+  color-scheme: light dark;
+}
+
+
+pre {
+  font-family: 'Oxygen Mono', monospace;
+  background-color: #ffffff;
+  border: 0px solid #cccccc;
+  width: 650px;
+  padding: 9.5px 0px 9.5px 0px;
+}
+
+a {
+  /*color: #4C4C4C;*/
+  vertical-align: middle;
+}
+
+body.dark-theme a {
+  color: #f0f0f0;
+}
+
+table {
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+th {
+  text-align: left;
+}
+
+hr {
+  margin-bottom: 0px;
+}
+
+h4 {
+  color: #686868;
+  margin-top: 20px;
+}
+
+
+.header {
+  color: #686868;
+  margin:3px 5px 6px 5px;
+}
+
+.icons {
+  margin: 3px 5px 3px 5px;
+  height: 24px;
+  vertical-align: middle;
+}
+
+.searchbox {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.searchbox > * {
+  margin: 5px;
+}
+
+.cat {
+  margin: 2px;
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #000;
+  overflow: hidden;
+  float: left;
+}
+
+.cat label {
+  float: left;
+  line-height: 1.2em;
+  width: 2.0em;
+  height: 1.5em;
+}
+
+.cat label span {
+  text-align: center;
+  padding: 3px 0;
+  display: block;
+}
+
+.cat label input {
+  position: absolute;
+  display: none;
+  color: #000 !important;
+}
+
+/* selects all of the text within the input element and changes the color of the text */
+.cat label input + span{color: #000;}
+
+/* This will declare how a selected input will look giving generic properties */
+.cat input:checked + span {
+    color: #ffffff;
+    /*text-shadow: 0 0  6px rgba(0, 0, 0, 0.8);*/
+}
+
+/*
+This following statements selects each category individually that contains an input element that is a checkbox and is checked (or selected) and chabges the background color of the span element.
+*/
+
+.action input:checked + span{background-color: #04aa6d;}
