@@ -1,9 +1,10 @@
 const basename = "/nginx-listing";
-const themeName = "colloid"
-const colorMode = "light"
+const themeName = "colloid";
+const colorMode = "light";
 
-const icon_base_path = `${basename}/icons/${themeName}/${colorMode}`
-const mimetypes_path = "mimetypes/scalable"
+const icon_base_path = `${basename}/icons/${themeName}/${colorMode}`;
+const icon_extension = ".svg";
+const mimetypes_path = "mimetypes/scalable";
 
 const default_icon = "mimetypes/scalable/application-blank.svg";
 const folder_icon = "places/scalable/default-folder.svg";
@@ -12,7 +13,7 @@ const parent_folder_icon = "places/scalable/folder-home.svg";
 
 function get_icon(extension) {
     if (extension in ext_map) {
-        return `${mimetypes_path}/${ext_map[extension]}`;
+        return `${mimetypes_path}/${ext_map[extension]}${icon_extension}`;
     }
     if (extension.length > 0 && extension[extension.length - 1] === "/") {
         if (extension === "../") {
