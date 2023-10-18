@@ -1,69 +1,26 @@
-// icon theme: https://store.kde.org/p/1661983
-const ext_map = {
-    "7z": "mimetypes/scalable/7zip.svg",
-    "apk": "mimetypes/scalable/application-apk.svg",
-    "bmp": "mimetypes/scalable/application-image-bmp.svg",
-    "bz2": "mimetypes/scalable/application-x-bzip.svg",
-    "crt": "mimetypes/scalable/application-certificate.svg",
-    "deb": "mimetypes/scalable/deb.svg",
-    "docx": "mimetypes/scalable/application-msword.svg",
-    "exe": "mimetypes/scalable/application-x-wine-extension-its.svg",
-    "gif": "mimetypes/scalable/application-image-gif.svg",
-    "gz": "mimetypes/scalable/application-gzip.svg",
-    "html": "mimetypes/scalable/html.svg",
-    "ico": "mimetypes/scalable/application-image-ico.svg",
-    "iso": "mimetypes/scalable/application-x-iso.svg",
-    "jpeg": "mimetypes/scalable/application-image-jpg.svg",
-    "jpg": "mimetypes/scalable/application-image-jpg.svg",
-    "js": "mimetypes/scalable/application-javascript.svg",
-    "json": "mimetypes/scalable/application-json.svg",
-    "mp3": "mimetypes/scalable/audio-mp3.svg",
-    "mp4": "mimetypes/scalable/video-mp4.svg",
-    "msi": "mimetypes/scalable/application-install.svg",
-    "ogg": "mimetypes/scalable/application-ogg.svg",
-    "pdf": "mimetypes/scalable/application-pdf.svg",
-    "png": "mimetypes/scalable/application-image-png.svg",
-    "ppt": "mimetypes/scalable/application-mspowerpoint.svg",
-    "pptx": "mimetypes/scalable/application-mspowerpoint.svg",
-    "rar": "mimetypes/scalable/application-vnd-rar.svg",
-    "rpm": "mimetypes/scalable/application-x-rpm.svg",
-    "sh": "mimetypes/scalable/application-x-shellscript.svg",
-    "sql": "mimetypes/scalable/application-sql.svg",
-    "srpm": "mimetypes/scalable/application-x-source-rpm.svg",
-    "svg": "mimetypes/scalable/application-image-svg.svg",
-    "tar": "mimetypes/scalable/application-x-tar.svg",
-    "tiff": "mimetypes/scalable/application-image-tiff.svg",
-    "torrent": "mimetypes/scalable/application-torrent.svg",
-    "ttf": "mimetypes/scalable/application-font.svg",
-    "ttf": "mimetypes/scalable/font-ttf.svg",
-    "txt": "mimetypes/scalable/application-text.svg",
-    "vsdx": "mimetypes/scalable/application-vnd-visio.svg",
-    "wav": "mimetypes/scalable/application-audio.svg",
-    "xlsx": "mimetypes/scalable/application-msexcel.svg",
-    "xml": "mimetypes/scalable/application-xml.svg",
-    "xsd": "mimetypes/scalable/application-xsd.svg",
-    "xslt": "mimetypes/scalable/application-xslt.svg",
-    "yaml": "mimetypes/scalable/application-x-yaml.svg",
-    "yml": "mimetypes/scalable/application-x-yaml.svg",
-    "zip": "mimetypes/scalable/application-archive-zip.svg",
-};
+const basename = "/nginx-listing";
+const themeName = "colloid"
+const colorMode = "light"
 
-const ext_def = "mimetypes/scalable/application-blank.svg";
+const icon_base_path = `${basename}/icons/${themeName}/${colorMode}`
+const mimetypes_path = "mimetypes/scalable"
 
-const ext_fld = "places/scalable/default-folder.svg";
-const ext_dup = "places/scalable/folder-home.svg";
+const default_icon = "mimetypes/scalable/application-blank.svg";
+const folder_icon = "places/scalable/default-folder.svg";
+const parent_folder_icon = "places/scalable/folder-home.svg";
+
 
 function get_icon(extension) {
     if (extension in ext_map) {
-        return ext_map[extension];
+        return `${mimetypes_path}/${ext_map[extension]}`;
     }
     if (extension.length > 0 && extension[extension.length - 1] === "/") {
         if (extension === "../") {
-            return ext_dup;
+            return parent_folder_icon;
         }
-        return ext_fld;
+        return folder_icon;
     }
-    return ext_def;
+    return default_icon;
 }
 
 function get_extension(path) {
@@ -77,24 +34,25 @@ function get_image(path) {
         return get_icon(ext.toLowerCase());
     }
     if (ext === ".." || ext === "../") {
-        return ext_dup;
+        return parent_folder_icon;
     }
-    return ext_fld;
+    return folder_icon;
 }
 
-function split(link, text) {
+function split(href, text) {
     const re1 = /.*<a.*href="(.*)".*>(.*)<\/a>.*/;
-    const ma1 = re1.exec(link);
+    const ma1 = re1.exec(href);
 
     const re2 = /^\s*(\S*)\s(\S*)\s+(\S*)\s+(\S*)\s*$/;
     const ma2 = re2.exec(text);
 
-    return {
-        "link": ma1 ? ma1[1] : "",
-        "name": ma1 ? ma1[2] : "",
-        "date": ma2 ? (ma2[1] + " " + ma2[2]) : "",
-        "size": ma2 ? ma2[3] : ""
-    };
+    const link = ma1 ? ma1[1] : "";
+    // const name = ma1 ? ma1[2] : "";
+    const name = link;
+    const date = ma2 ? (ma2[1] + " " + ma2[2]) : "";
+    const size = ma2 ? ma2[3] : "";
+
+    return {"link": link, "name": name, "date": date, "size": size};
 }
 
 function filterTable() {
@@ -134,19 +92,19 @@ function uncheckCaseSensitive() {
 function createSearchBox() {
     const cbCaseSensitive = `
         <div class="cat action">
-          <label>
-            <input id="caseSensitive" type="checkbox"></input>
-            <span>Aa</span>
-          </label>
+            <label>
+                <input id="caseSensitive" type="checkbox"></input>
+                <span>Aa</span>
+            </label>
         </div>
     `;
 
     const cbRegexSearch = `
         <div class="cat action">
-          <label>
-            <input id="regexSearch" type="checkbox" onchange="uncheckCaseSensitive()"></input>
-            <span>.*</span>
-          </label>
+            <label>
+                <input id="regexSearch" type="checkbox" onchange="uncheckCaseSensitive()"></input>
+                <span>.*</span>
+            </label>
         </div>
     `;
 
@@ -158,17 +116,39 @@ function createSearchBox() {
     return div;
 }
 
+function convertSize(sizeStr) {
+    let size = parseInt(sizeStr);
+    if (isNaN(size)) {
+        return sizeStr;
+    }
+
+    const sq = ["B", "K", "M", "G", "T"];
+    let sqi = 0;
+    while (size > 1024 && sqi < sq.length) {
+        size /= 1024;
+        sqi += 1;
+    }
+
+    if (sqi === 0) {
+        return `${size} ${sq[sqi]}`;
+    }
+
+    size = size.toFixed(2);
+//    size = Math.round(size * 100) / 100;
+    return `${size} ${sq[sqi]}`;
+}
+
 function createTable() {
     const mode = "light";
 
     let table = document.createElement("table");
     table.innerHTML = `
         <thead>
-          <tr>
-            <th>Name</th>
-            <th class="time">Time</th>
-            <th class="size">Size</th>
-          </tr>
+            <tr>
+                <th>Name</th>
+                <th class="time">Time</th>
+                <th class="size">Size</th>
+            </tr>
         </thead>
     `;
     let tbody = document.createElement("tbody");
@@ -182,9 +162,12 @@ function createTable() {
 
         let trow = document.createElement("tr");
         trow.innerHTML = `
-            <td><img class="icons" src="icons/${mode}/${image}"></img><a href="${data["link"]}">${data["name"]}</a></td>
+            <td>
+                <img class="icons" src="${icon_base_path}/${image}"></img>
+                <a href="${data["link"]}">${data["name"]}</a>
+            </td>
             <td>${data["date"]}</td>
-            <td>${data["size"]}</td>
+            <td>${convertSize(data["size"])}</td>
         `;
         tbody.appendChild(trow);
     });
@@ -193,11 +176,10 @@ function createTable() {
 }
 
 function modify_page() {
-    u("hr").remove(); //.each(function(element, index) { element.hidden = true; });
+    u("hr").remove();
     let div = document.createElement("div");
     div.appendChild(createSearchBox());
     div.appendChild(document.createElement("hr"));
-    //div.appendChild(document.createElement("p"));
     div.appendChild(createTable());
     u("pre").replace(div);
 }
